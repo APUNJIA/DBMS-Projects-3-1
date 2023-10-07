@@ -87,12 +87,11 @@ SET firstname = 'Joe'
 WHERE lastname = 'Smith';
 
 -- PART - 3
---QUERIES FOR STUDENT TABLE 
+-- Query with GROUP BY, ORDER BY, and HAVING
 
-SELECT DepartmentID, AVG(Age) AS AvgAge
-FROM Students
-GROUP BY DepartmentID
-HAVING AVG(Age) > 22;
+SELECT CourseID, CourseName, DepartmentID
+FROM Courses
+ORDER BY CourseName;
 
 SELECT DepartmentID, COUNT(*) AS StudentCount
 FROM Students
@@ -100,90 +99,20 @@ GROUP BY DepartmentID
 ORDER BY StudentCount DESC
 LIMIT 1;
 
-SELECT FirstName, COUNT(*) AS FirstNameCount
-FROM Students
-GROUP BY FirstName
-ORDER BY FirstNameCount DESC;
-
-SELECT StudentID, FirstName, LastName, Age
-FROM Students
-WHERE Age > (SELECT AVG(Age) FROM Students);
-
-SELECT DepartmentID, MAX(Age) AS MaxAge
-FROM Students
-GROUP BY DepartmentID
-HAVING MAX(Age) > 25;
-
---QUERIES FOR COURSES TABLE 
-
-SELECT CourseID, CourseName, DepartmentID
-FROM Courses
-ORDER BY CourseName;
-
-SELECT c.CourseID, c.CourseName, COUNT(g.StudentID) AS EnrolledStudents
-FROM Courses c
-LEFT JOIN Grades g ON c.CourseID = g.CourseID
-GROUP BY c.CourseID, c.CourseName
-HAVING EnrolledStudents > 2;
-
-SELECT DepartmentID, COUNT(*) AS CourseCount
-FROM Courses
-GROUP BY DepartmentID
-HAVING CourseCount = (SELECT MIN(CourseCount) FROM (SELECT DepartmentID, COUNT(*) AS CourseCount FROM Courses GROUP BY DepartmentID) AS CourseCounts);
-
-SELECT CourseID, CourseName, DepartmentID
-FROM Courses
-ORDER BY LEN(CourseName) DESC;
-
-SELECT CourseID, CourseName
-FROM Courses
-WHERE DepartmentID IS NULL;
-
---QUERIES FOR GRADES TABLE 
-
 SELECT g.CourseID, c.CourseName, AVG(g.Grade) AS AvgGrade
 FROM Grades g
 INNER JOIN Courses c ON g.CourseID = c.CourseID
 GROUP BY g.CourseID, c.CourseName
-HAVING AvgGrade > 7;
+HAVING  AVG(g.Grade) > 7;
 
-SELECT g.StudentID, s.FirstName, s.LastName, SUM(g.Grade) AS TotalGrade
-FROM Grades g
-INNER JOIN Students s ON g.StudentID = s.StudentID
-GROUP BY g.StudentID, s.FirstName, s.LastName
-ORDER BY TotalGrade DESC
-LIMIT 1;
+SELECT DepartmentID, AVG(Age) AS AvgAge
+FROM Students
+GROUP BY DepartmentID
+HAVING AVG(Age) > 22;
 
-SELECT g.CourseID, c.CourseName, COUNT(*) AS HighScorers
-FROM Grades g
-INNER JOIN Courses c ON g.CourseID = c.CourseID
-WHERE g.Grade > 8
-GROUP BY g.CourseID, c.CourseName
-ORDER BY HighScorers DESC;
-
-SELECT s.StudentID, s.FirstName, s.LastName
-FROM Students s
-INNER JOIN (
-    SELECT StudentID
-    FROM Grades
-    GROUP BY StudentID
-    HAVING COUNT(DISTINCT CourseID) > 1
-) multi_dept_students ON s.StudentID = multi_dept_students.StudentID;
-
-SELECT c.DepartmentID, c.CourseID, c.CourseName, AVG(g.Grade) AS AvgGrade
-FROM Courses c
-INNER JOIN Grades g ON c.CourseID = g.CourseID
-GROUP BY c.DepartmentID, c.CourseID, c.CourseName
-HAVING AvgGrade = (
-    SELECT MAX(AvgGrade)
-    FROM (
-        SELECT DepartmentID, CourseID, AVG(g.Grade) AS AvgGrade
-        FROM Courses c
-        INNER JOIN Grades g ON c.CourseID = g.CourseID
-        GROUP BY DepartmentID, CourseID
-    ) MaxAvgGrades
-    WHERE MaxAvgGrades.DepartmentID = c.DepartmentID
-);
+SELECT StudentID, FirstName, LastName, Age
+FROM Students
+WHERE Age > (SELECT AVG(Age) FROM Students);
 
 -- PART - 4
 -- Join Students with Grades to Get Student Grades:
@@ -231,24 +160,33 @@ GROUP BY s.StudentID, s.FirstName, s.LastName;
 
 -- PART - 5
 
-SELECT DepartmentID, COUNT(*) AS StudentCount, MAX(Age) AS MaxAge
-FROM Students
-GROUP BY DepartmentID;
+SELECT C.CourseID, C.CourseName, COUNT(G.StudentID) AS CourseCount, MAX(S.Age) AS MaxAge
+FROM Courses C
+LEFT JOIN Grades G ON C.CourseID = G.CourseID
+LEFT JOIN Students S ON G.StudentID = S.StudentID
+GROUP BY C.CourseID, C.CourseName
+ORDER BY C.CourseID;
 
-SELECT DepartmentID, COUNT(*) AS CourseCount
-FROM Courses
-GROUP BY DepartmentID;
 
-SELECT StudentID, COUNT(*) AS TotalGrades, MIN(Grade)
-FROM Grades;
+SELECT s.StudentID, s.FirstName, s.LastName, SUM(g.Grade) AS TotalGrade, MAX(g.Grade) AS MaxGrade
+FROM Students s
+INNER JOIN Grades g ON s.StudentID = g.StudentID
+GROUP BY s.StudentID, s.FirstName, s.LastName;
 
-SELECT DepartmentID, AVG(Age) AS AverageAge
+
+SELECT DepartmentID, AVG(Age) AS AverageAge, MIN(Age) AS MinAge
 FROM Students
 GROUP BY DepartmentID;
 
 SELECT DepartmentID, COUNT(*) AS StudentCount, SUM(Age) AS TotalAge
 FROM Students
 GROUP BY DepartmentID;
+
+
+SELECT c.CourseID, c.CourseName, AVG(g.Grade) AS AverageGrade, MIN(g.Grade) AS MinGrade
+FROM Courses c
+LEFT JOIN Grades g ON c.CourseID = g.CourseID
+GROUP BY c.CourseID, c.CourseName;
 
 -- PART - 6
 --From Students table
