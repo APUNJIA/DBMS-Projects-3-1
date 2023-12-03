@@ -1,4 +1,4 @@
-These projects were undertaken as a part of CS F212 DBMS under Professor Jayalakshmi of BITS PILANI Hyderabad.
+These miniprojects were undertaken as a part of CS F212 DBMS under Professor Jayalakshmi of BITS PILANI Hyderabad.
 
 The first project(miniproject1.sql) was to make a university management system which should contain the following:
 
