@@ -1,6 +1,6 @@
-This project was undertaken as a part of CSF212 DBMS under Professor Jayalakshmi of BITS PILANI Hyderabad.
+These projects were undertaken as a part of CSF212 DBMS under Professor Jayalakshmi of BITS PILANI Hyderabad.
 
-The project was to make a university management system which should contain the following:
+The first project was to make a university management system which should contain the following:
 
 1. Minimum 3 table creation and insertion of atleast 5 tuples in each table.
 
