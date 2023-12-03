@@ -13,3 +13,5 @@ The project was to make a university management system which should contain the 
 5. Queries to retrieve the tuples based on atleast two aggregate functions.
     
 6. Subqueries to retrieve the tuples.
+
+P.S: miniproject2 still needs to be uploaded and updated
