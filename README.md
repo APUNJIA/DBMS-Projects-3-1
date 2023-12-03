@@ -28,7 +28,7 @@ The second project(miniproject2.sql) was to take the tables from the previous mi
 
 Apart from all this, we had to document all of our workings in a PDF format for both the miniprojects which had to be submitted to the instructor in charge. The people who worked on the project along with their ID numbers are:
 
-1. Shaurya Agarwal (2021AAPS2047H)
+1. Shaurya Agarwal (2021AAPS2047H) (Me)
 2. Suchitra Sahu (2021A8PS2210H)
 3. Ashrita Vaka Naidu (2021A3PS3061H)
 4. Suchetana Mukherjee (2021AAPS0759H)
